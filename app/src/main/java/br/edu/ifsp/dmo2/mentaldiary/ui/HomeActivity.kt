@@ -1,4 +1,15 @@
 package br.edu.ifsp.dmo2.mentaldiary.ui
 
-class HomeActivity {
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import br.edu.ifsp.dmo2.mentaldiary.databinding.ActivityHomeBinding
+
+class HomeActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityHomeBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+    }
 }

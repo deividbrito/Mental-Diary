@@ -25,6 +25,9 @@
         <activity
             android:name=".test.TestFirebaseActivity"
             android:exported="false" />
+        <activity android:name=".auth.LoginActivity" android:exported="false"/>
+        <activity android:name=".auth.RegisterActivity" android:exported="false"/>
+        <activity android:name=".ui.HomeActivity" android:exported="false"/>
     </application>
 
 </manifest>
