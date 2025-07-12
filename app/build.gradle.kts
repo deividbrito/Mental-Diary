@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "br.edu.ifsp.dmo2.mentaldiary"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "br.edu.ifsp.dmo2.mentaldiary"
@@ -37,6 +37,7 @@ android {
 }
 
 dependencies {
+    implementation(platform(libs.firebase.bom))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
