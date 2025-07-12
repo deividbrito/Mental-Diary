@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "467556118388",
+    "project_id": "mentaldiary-696d8",
+    "storage_bucket": "mentaldiary-696d8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467556118388:android:02339ee03d88aa4ab90621",
+        "android_client_info": {
+          "package_name": "br.edu.ifsp.dmo2.mentaldiary"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgiV2YLt-o-bNFek2wJ7RZ_uOXcqhgcNg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467556118388:android:de33555a7d2d1becb90621",
+        "android_client_info": {
+          "package_name": "com.deivid.mentaldiary"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgiV2YLt-o-bNFek2wJ7RZ_uOXcqhgcNg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
