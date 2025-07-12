@@ -23,7 +23,7 @@ Aplicativo de diário inteligente com entrada de voz, registro de humor e imagem
 ## PROGRESSO
 - SPRINT 1 -> FINALIZADA!
 - SPRINT 2 -> FINALIZADA!
-- SPRINT 3 -> ATRASADA.
+- SPRINT 3 -> FINALIZADA!
 - SPRINT 4 -> ATRASADA.
 - SPRINT 5 -> ATRASADA.
 - SPRINT 6 -> ATRASADA (sprint atual no cronograma).
