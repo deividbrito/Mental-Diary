@@ -150,8 +150,9 @@ class EntryFormActivity : AppCompatActivity() {
             } ?: collection.add(entryData)
 
             task.addOnSuccessListener {
+                setResult(RESULT_OK) // Passa o resultado para a HomeActivity
                 Toast.makeText(this, "Entrada salva com sucesso!", Toast.LENGTH_SHORT).show()
-                finish()
+                finish() // Fecha a activity e retorna à HomeActivity
             }.addOnFailureListener {
                 Toast.makeText(this, "Erro ao salvar entrada", Toast.LENGTH_SHORT).show()
             }

@@ -36,8 +36,7 @@ class EntryDetailsActivity : AppCompatActivity() {
         binding.btnEditar.setOnClickListener {
             val intent = Intent(this, EntryFormActivity::class.java)
             intent.putExtra("entry", entry)
-            startActivity(intent)
-            finish()
+            startActivityForResult(intent, 200)
         }
 
         binding.btnExcluir.setOnClickListener {
@@ -83,19 +82,34 @@ class EntryDetailsActivity : AppCompatActivity() {
                     storageRef.delete()
                         .addOnSuccessListener {
                             Toast.makeText(this, "Entrada e imagem excluídas com sucesso!", Toast.LENGTH_SHORT).show()
-                            finish()
+                            reiniciarHomeActivity()
                         }
                         .addOnFailureListener {
                             Toast.makeText(this, "Entrada excluída, mas falha ao remover imagem.", Toast.LENGTH_SHORT).show()
-                            finish()
+                            reiniciarHomeActivity()
                         }
                 } ?: run {
                     Toast.makeText(this, "Entrada excluída com sucesso!", Toast.LENGTH_SHORT).show()
-                    finish()
+                    reiniciarHomeActivity()
                 }
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Erro ao excluir entrada", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun reiniciarHomeActivity() {
+        val intent = Intent(this, HomeActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK // Limpa a pilha de atividades e reinicia HomeActivity
+        startActivity(intent)
+        finish()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 200 && resultCode == RESULT_OK) {
+            reiniciarHomeActivity()
+        }
     }
 }

@@ -46,11 +46,19 @@ class HomeActivity : AppCompatActivity() {
         binding.rvEntries.adapter = adapter
 
         binding.fabAdd.setOnClickListener {
-            startActivity(Intent(this, EntryFormActivity::class.java))
+            val intent = Intent(this, EntryFormActivity::class.java)
+            startActivityForResult(intent, 100)
         }
 
         setupSpinners()
         fetchEntries()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            fetchEntries()
+        }
     }
 
     private fun setupSpinners() {
