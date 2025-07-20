@@ -28,7 +28,8 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:spinnerMode="dropdown" />
+            android:spinnerMode="dropdown"
+            android:popupBackground="@android:color/white"/>
 
         <Spinner
             android:id="@+id/spinnerData"
@@ -36,7 +37,8 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:spinnerMode="dropdown"
-            android:layout_marginStart="8dp" />
+            android:layout_marginStart="8dp"
+            android:popupBackground="@android:color/white"/>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
