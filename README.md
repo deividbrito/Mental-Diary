@@ -18,7 +18,7 @@ Aplicativo de diário inteligente com entrada de voz, registro de humor e imagem
 - Reconhecimento de voz.
 
 ## 🎥 Vídeo demonstrativo
-(Em breve)
+https://drive.google.com/file/d/1vrCH52MiThlVuFCYtsw4N8f7B81o-I6C/view?usp=sharing
 
 ## 🌟 Características
 - Interface intuitiva e fácil de usar;
