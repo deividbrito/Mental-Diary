@@ -4,7 +4,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:background="#F1F1F1">
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@mipmap/logo"
+        android:contentDescription="Logo do Mental Diary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="48dp"/>
 
     <EditText
         android:id="@+id/et_name"
@@ -12,7 +24,9 @@
         android:inputType="textPersonName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="#7FBF7F"
+        app:layout_constraintTop_toBottomOf="@id/iv_logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -23,6 +37,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:backgroundTint="#7FBF7F"
         app:layout_constraintTop_toBottomOf="@id/et_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -34,6 +49,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:backgroundTint="#7FBF7F"
         app:layout_constraintTop_toBottomOf="@id/et_email"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -41,6 +57,8 @@
     <Button
         android:id="@+id/btn_register"
         android:text="Cadastrar"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#63A4C6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -51,6 +69,7 @@
     <TextView
         android:id="@+id/tv_to_login"
         android:text="Já tem conta? Entrar"
+        android:textColor="#7FBF7F"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
