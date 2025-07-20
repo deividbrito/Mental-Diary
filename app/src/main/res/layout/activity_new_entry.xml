@@ -1,0 +1,33 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/newEntryLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <EditText
+        android:id="@+id/editTextTranscricao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Texto ou transcrição"
+        android:inputType="textMultiLine"
+        android:minLines="4"
+        android:maxLines="8"
+        android:gravity="top"
+        android:background="@drawable/rounded_edittext" />
+
+    <Button
+        android:id="@+id/buttonGravar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gravar Áudio"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/buttonSalvar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Salvar Entrada"
+        android:layout_marginTop="24dp" />
+</LinearLayout>
