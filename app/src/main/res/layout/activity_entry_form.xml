@@ -3,67 +3,16 @@
     android:id="@+id/entryFormLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:background="#F1F1F1">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/editTextTexto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Digite algo ou use o microfone"
-            android:minLines="4"
-            android:gravity="top"
-            android:inputType="textMultiLine" />
-
-        <Button
-            android:id="@+id/buttonTranscricao"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="🎤 Usar voz para transcrição"
-            android:layout_marginTop="12dp" />
-
-        <TextView
-            android:id="@+id/textViewHumor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Como você está se sentindo?"
-            android:layout_marginTop="16dp" />
-
-        <RadioGroup
-            android:id="@+id/radioGroupHumor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/radioFeliz"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Feliz" />
-
-            <RadioButton
-                android:id="@+id/radioTriste"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Triste" />
-
-            <RadioButton
-                android:id="@+id/radioNeutro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Neutro" />
-        </RadioGroup>
-
-        <Button
-            android:id="@+id/buttonImagem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="📷 Escolher imagem"
-            android:layout_marginTop="16dp" />
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="16dp">
 
         <ImageView
             android:id="@+id/imagePreview"
@@ -71,13 +20,85 @@
             android:layout_height="200dp"
             android:scaleType="centerCrop"
             android:layout_marginTop="8dp"
-            android:visibility="gone" />
+            android:visibility="gone"/>
+
+        <EditText
+            android:id="@+id/editTextTexto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Digite algo ou use o microfone"
+            android:minLines="2"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:backgroundTint="#98FB98"
+            android:textColor="#000000"
+            android:textColorHint="#7FBF7F"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="12dp"/>
+
+        <Button
+            android:id="@+id/buttonTranscricao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🎤 Usar voz para transcrição"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="#63A4C6"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:id="@+id/textViewHumor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Como você está se sentindo?"
+            android:textColor="#000000"
+            android:layout_marginTop="16dp"
+            android:textSize="18sp"/>
+
+        <RadioGroup
+            android:id="@+id/radioGroupHumor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
+
+            <RadioButton
+                android:id="@+id/radioFeliz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Feliz"
+                android:textColor="#000000"/>
+
+            <RadioButton
+                android:id="@+id/radioTriste"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Triste"
+                android:textColor="#000000"/>
+
+            <RadioButton
+                android:id="@+id/radioNeutro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Neutro"
+                android:textColor="#000000"/>
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/buttonImagem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📷 Tirar uma foto"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#63A4C6"
+            android:textColor="#FFFFFF"/>
 
         <Button
             android:id="@+id/buttonSalvar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Salvar Entrada"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#63A4C6"
+            android:textColor="#FFFFFF"/>
     </LinearLayout>
 </ScrollView>
