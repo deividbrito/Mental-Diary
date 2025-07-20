@@ -11,7 +11,8 @@
         android:layout_height="?attr/actionBarSize"
         android:background="#63A4C6"
         android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
-        app:title="Mental Diary" />
+        app:title="Mental Diary"
+        app:menu="@menu/menu_home" />
 
     <LinearLayout
         android:id="@+id/filterLayout"
