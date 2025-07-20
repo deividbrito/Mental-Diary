@@ -9,7 +9,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="#63A4C6"
         android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
         app:title="Mental Diary" />
 
@@ -43,6 +43,7 @@
         android:id="@+id/rv_entries"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#E0F7FA"
         android:layout_marginTop="112dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

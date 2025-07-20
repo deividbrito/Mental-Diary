@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Excluir"
-            android:backgroundTint=""
+            android:backgroundTint="#000000"
             android:textColor="@android:color/white"/>
 
     </LinearLayout>
