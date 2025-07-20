@@ -15,11 +15,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import br.edu.ifsp.dmo2.mentaldiary.R
+import br.edu.ifsp.dmo2.mentaldiary.model.DiaryEntry
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import java.io.ByteArrayOutputStream
-import java.text.SimpleDateFormat
 import java.util.*
 
 class EntryFormActivity : AppCompatActivity() {
@@ -33,6 +34,7 @@ class EntryFormActivity : AppCompatActivity() {
 
     private lateinit var speechRecognizer: SpeechRecognizer
     private var imagemBitmap: Bitmap? = null
+    private var entradaExistente: DiaryEntry? = null
 
     private val firestore = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
@@ -56,6 +58,21 @@ class EntryFormActivity : AppCompatActivity() {
 
         solicitarPermissoes()
 
+        entradaExistente = intent.getParcelableExtra("entry")
+
+        entradaExistente?.let { entrada ->
+            editTextTexto.setText(entrada.texto)
+            when (entrada.humor) {
+                "Feliz" -> radioGroupHumor.check(R.id.radioFeliz)
+                "Triste" -> radioGroupHumor.check(R.id.radioTriste)
+                "Ansioso" -> radioGroupHumor.check(R.id.radioNeutro)
+            }
+            if (!entrada.imagemUrl.isNullOrEmpty()) {
+                Glide.with(this).load(entrada.imagemUrl).into(imagePreview)
+                imagePreview.visibility = ImageView.VISIBLE
+            }
+        }
+
         val recognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
             putExtra(RecognizerIntent.EXTRA_LANGUAGE, "pt-BR")
@@ -71,12 +88,10 @@ class EntryFormActivity : AppCompatActivity() {
             override fun onError(error: Int) {
                 Toast.makeText(this@EntryFormActivity, "Erro na transcrição", Toast.LENGTH_SHORT).show()
             }
-
             override fun onResults(results: Bundle?) {
                 val result = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                 result?.let { editTextTexto.setText(it[0]) }
             }
-
             override fun onPartialResults(partialResults: Bundle?) {}
             override fun onEvent(eventType: Int, params: Bundle?) {}
         })
@@ -120,7 +135,6 @@ class EntryFormActivity : AppCompatActivity() {
         }
 
         val humor = findViewById<RadioButton>(humorId).text.toString()
-
         val entryData: HashMap<String, Any> = hashMapOf(
             "userId" to userId,
             "texto" to texto,
@@ -128,6 +142,20 @@ class EntryFormActivity : AppCompatActivity() {
             "dataCriacao" to com.google.firebase.Timestamp.now(),
             "foiPorVoz" to false
         )
+
+        fun continuarComFirestore() {
+            val collection = firestore.collection("entries")
+            val task = entradaExistente?.id?.let { id ->
+                collection.document(id).set(entryData)
+            } ?: collection.add(entryData)
+
+            task.addOnSuccessListener {
+                Toast.makeText(this, "Entrada salva com sucesso!", Toast.LENGTH_SHORT).show()
+                finish()
+            }.addOnFailureListener {
+                Toast.makeText(this, "Erro ao salvar entrada", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         if (imagemBitmap != null) {
             val baos = ByteArrayOutputStream()
@@ -140,7 +168,7 @@ class EntryFormActivity : AppCompatActivity() {
                     imageRef.downloadUrl
                         .addOnSuccessListener { uri ->
                             entryData["imagemUrl"] = uri.toString()
-                            salvarNoFirestore(entryData)
+                            continuarComFirestore()
                         }
                         .addOnFailureListener { e ->
                             Toast.makeText(this, "Erro ao obter URL da imagem: ${e.message}", Toast.LENGTH_LONG).show()
@@ -152,20 +180,8 @@ class EntryFormActivity : AppCompatActivity() {
                     e.printStackTrace()
                 }
         } else {
-            salvarNoFirestore(entryData)
+            continuarComFirestore()
         }
-    }
-
-    private fun salvarNoFirestore(entryData: HashMap<String, Any>) {
-        firestore.collection("entries")
-            .add(entryData)
-            .addOnSuccessListener {
-                Toast.makeText(this, "Entrada salva com sucesso!", Toast.LENGTH_SHORT).show()
-                finish()
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Erro ao salvar entrada", Toast.LENGTH_SHORT).show()
-            }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
