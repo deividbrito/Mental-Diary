@@ -65,7 +65,7 @@ class EntryFormActivity : AppCompatActivity() {
             when (entrada.humor) {
                 "Feliz" -> radioGroupHumor.check(R.id.radioFeliz)
                 "Triste" -> radioGroupHumor.check(R.id.radioTriste)
-                "Ansioso" -> radioGroupHumor.check(R.id.radioNeutro)
+                "Neutro" -> radioGroupHumor.check(R.id.radioNeutro)
             }
             if (!entrada.imagemUrl.isNullOrEmpty()) {
                 Glide.with(this).load(entrada.imagemUrl).into(imagePreview)
@@ -150,9 +150,9 @@ class EntryFormActivity : AppCompatActivity() {
             } ?: collection.add(entryData)
 
             task.addOnSuccessListener {
-                setResult(RESULT_OK) // Passa o resultado para a HomeActivity
+                setResult(RESULT_OK)
                 Toast.makeText(this, "Entrada salva com sucesso!", Toast.LENGTH_SHORT).show()
-                finish() // Fecha a activity e retorna à HomeActivity
+                finish()
             }.addOnFailureListener {
                 Toast.makeText(this, "Erro ao salvar entrada", Toast.LENGTH_SHORT).show()
             }

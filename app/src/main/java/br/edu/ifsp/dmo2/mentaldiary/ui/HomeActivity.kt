@@ -62,7 +62,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupSpinners() {
-        val humorOptions = listOf("Todos", "Feliz", "Triste", "Ansioso")
+        val humorOptions = listOf("Todos", "Feliz", "Triste", "Neutro")
         val dataOptions = listOf("Mais recentes", "Mais antigos")
 
         binding.spinnerHumor.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, humorOptions)
