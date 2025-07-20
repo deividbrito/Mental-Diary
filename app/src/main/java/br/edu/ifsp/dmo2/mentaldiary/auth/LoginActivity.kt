@@ -11,7 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import android.widget.Toast
 
 class LoginActivity : AppCompatActivity() {
+    // binding da tela de login
     private lateinit var binding: ActivityLoginBinding
+    // repositorio de autenticacao
     private val authRepo = AuthRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,23 +21,32 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // quando clica no botao de login
         binding.btnLogin.setOnClickListener {
+            // pega o que o usuario digitou
             val email = binding.etEmail.text.toString()
             val pass  = binding.etPass.text.toString()
+
+            // inicia corrotina pra logar
             lifecycleScope.launch {
                 authRepo.login(email, pass)
                     .onSuccess {
+                        // se logar certo, vai pra home
                         startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                         finish()
                     }
+                    // se der erro, mostra mensagem
                     .onFailure { show(it) }
             }
         }
 
+        // se clicar pra ir pro cadastro
         binding.tvToRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
+
+    // funcao pra mostrar erro com toast
     private fun show(t: Throwable) =
-        Toast.makeText(this, t.message ?: "Erro", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, t.message ?: "erro", Toast.LENGTH_SHORT).show()
 }

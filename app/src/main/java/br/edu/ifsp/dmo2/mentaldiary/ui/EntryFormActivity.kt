@@ -25,6 +25,7 @@ import java.util.*
 
 class EntryFormActivity : AppCompatActivity() {
 
+    // campos da tela
     private lateinit var editTextTexto: EditText
     private lateinit var buttonTranscricao: Button
     private lateinit var radioGroupHumor: RadioGroup
@@ -32,10 +33,14 @@ class EntryFormActivity : AppCompatActivity() {
     private lateinit var imagePreview: ImageView
     private lateinit var buttonSalvar: Button
 
+    // reconhecedor de voz
     private lateinit var speechRecognizer: SpeechRecognizer
+
+    // imagem tirada e entrada que ta sendo editada (se for o caso)
     private var imagemBitmap: Bitmap? = null
     private var entradaExistente: DiaryEntry? = null
 
+    // firebase: banco, storage e auth
     private val firestore = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
     private val auth = FirebaseAuth.getInstance()
@@ -49,6 +54,7 @@ class EntryFormActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entry_form)
 
+        // conecta os campos da tela
         editTextTexto = findViewById(R.id.editTextTexto)
         buttonTranscricao = findViewById(R.id.buttonTranscricao)
         radioGroupHumor = findViewById(R.id.radioGroupHumor)
@@ -56,10 +62,13 @@ class EntryFormActivity : AppCompatActivity() {
         imagePreview = findViewById(R.id.imagePreview)
         buttonSalvar = findViewById(R.id.buttonSalvar)
 
+        // pede permissoes de microfone e camera
         solicitarPermissoes()
 
+        // verifica se veio uma entrada pra editar
         entradaExistente = intent.getParcelableExtra("entry")
 
+        // se tiver entrada, preenche os campos com os dados dela
         entradaExistente?.let { entrada ->
             editTextTexto.setText(entrada.texto)
             when (entrada.humor) {
@@ -73,44 +82,50 @@ class EntryFormActivity : AppCompatActivity() {
             }
         }
 
+        // prepara o intent pro reconhecimento de voz
         val recognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
             putExtra(RecognizerIntent.EXTRA_LANGUAGE, "pt-BR")
         }
 
+        // configura o speechRecognizer
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this)
         speechRecognizer.setRecognitionListener(object : RecognitionListener {
-            override fun onReadyForSpeech(params: Bundle?) {}
-            override fun onBeginningOfSpeech() {}
-            override fun onRmsChanged(rmsdB: Float) {}
-            override fun onBufferReceived(buffer: ByteArray?) {}
-            override fun onEndOfSpeech() {}
             override fun onError(error: Int) {
-                Toast.makeText(this@EntryFormActivity, "Erro na transcrição", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@EntryFormActivity, "erro na transcricao", Toast.LENGTH_SHORT).show()
             }
             override fun onResults(results: Bundle?) {
                 val result = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                 result?.let { editTextTexto.setText(it[0]) }
             }
+            override fun onReadyForSpeech(params: Bundle?) {}
+            override fun onBeginningOfSpeech() {}
+            override fun onRmsChanged(rmsdB: Float) {}
+            override fun onBufferReceived(buffer: ByteArray?) {}
+            override fun onEndOfSpeech() {}
             override fun onPartialResults(partialResults: Bundle?) {}
             override fun onEvent(eventType: Int, params: Bundle?) {}
         })
 
+        // acao do botao de transcricao
         buttonTranscricao.setOnClickListener {
-            Toast.makeText(this, "Fale agora...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "fale agora...", Toast.LENGTH_SHORT).show()
             speechRecognizer.startListening(recognizerIntent)
         }
 
+        // acao do botao pra tirar foto
         buttonImagem.setOnClickListener {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
         }
 
+        // acao do botao salvar
         buttonSalvar.setOnClickListener {
             salvarEntrada()
         }
     }
 
+    // pede permissoes de microfone e camera
     private fun solicitarPermissoes() {
         val permissoes = mutableListOf<String>()
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
@@ -124,13 +139,15 @@ class EntryFormActivity : AppCompatActivity() {
         }
     }
 
+    // salva ou atualiza a entrada no firestore
     private fun salvarEntrada() {
         val texto = editTextTexto.text.toString().trim()
         val userId = auth.currentUser?.uid
         val humorId = radioGroupHumor.checkedRadioButtonId
 
+        // valida os campos obrigatorios
         if (texto.isEmpty() || humorId == -1 || userId == null) {
-            Toast.makeText(this, "Preencha todos os campos obrigatórios", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "preencha todos os campos obrigatorios", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -143,6 +160,7 @@ class EntryFormActivity : AppCompatActivity() {
             "foiPorVoz" to false
         )
 
+        // funcao auxiliar pra salvar no firestore
         fun continuarComFirestore() {
             val collection = firestore.collection("entries")
             val task = entradaExistente?.id?.let { id ->
@@ -151,13 +169,14 @@ class EntryFormActivity : AppCompatActivity() {
 
             task.addOnSuccessListener {
                 setResult(RESULT_OK)
-                Toast.makeText(this, "Entrada salva com sucesso!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "entrada salva com sucesso!", Toast.LENGTH_SHORT).show()
                 finish()
             }.addOnFailureListener {
-                Toast.makeText(this, "Erro ao salvar entrada", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "erro ao salvar entrada", Toast.LENGTH_SHORT).show()
             }
         }
 
+        // se tiver imagem, faz upload antes de salvar
         if (imagemBitmap != null) {
             val baos = ByteArrayOutputStream()
             imagemBitmap!!.compress(Bitmap.CompressFormat.JPEG, 100, baos)
@@ -171,20 +190,19 @@ class EntryFormActivity : AppCompatActivity() {
                             entryData["imagemUrl"] = uri.toString()
                             continuarComFirestore()
                         }
-                        .addOnFailureListener { e ->
-                            Toast.makeText(this, "Erro ao obter URL da imagem: ${e.message}", Toast.LENGTH_LONG).show()
-                            e.printStackTrace()
+                        .addOnFailureListener {
+                            Toast.makeText(this, "erro ao obter url da imagem", Toast.LENGTH_LONG).show()
                         }
                 }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Upload falhou: ${e.message}", Toast.LENGTH_LONG).show()
-                    e.printStackTrace()
+                .addOnFailureListener {
+                    Toast.makeText(this, "upload falhou", Toast.LENGTH_LONG).show()
                 }
         } else {
             continuarComFirestore()
         }
     }
 
+    // trata o retorno da foto tirada
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
@@ -194,6 +212,7 @@ class EntryFormActivity : AppCompatActivity() {
         }
     }
 
+    // libera o recurso do reconhecimento de voz
     override fun onDestroy() {
         super.onDestroy()
         speechRecognizer.destroy()

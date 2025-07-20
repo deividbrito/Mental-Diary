@@ -25,32 +25,37 @@ class EntryDetailsActivity : AppCompatActivity() {
         binding = ActivityEntryDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // pega a entrada passada por intent
         entry = intent.getParcelableExtra("entry") ?: run {
-            Toast.makeText(this, "Erro ao carregar entrada", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "erro ao carregar entrada", Toast.LENGTH_SHORT).show()
             finish()
             return
         }
 
+        // mostra os dados da entrada na tela
         carregarDados()
 
+        // botao pra editar a entrada
         binding.btnEditar.setOnClickListener {
             val intent = Intent(this, EntryFormActivity::class.java)
             intent.putExtra("entry", entry)
             startActivityForResult(intent, 200)
         }
 
+        // botao pra excluir a entrada
         binding.btnExcluir.setOnClickListener {
             confirmarExclusao()
         }
     }
 
+    // mostra texto, data, humor e imagem
     private fun carregarDados() {
         binding.tvTexto.text = entry.texto
-        binding.tvHumor.text = "Humor: ${entry.humor}"
+        binding.tvHumor.text = "humor: ${entry.humor}"
 
         val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
         val dataFormatada = entry.dataCriacao?.toDate()?.let { sdf.format(it) } ?: ""
-        binding.tvData.text = "Data: $dataFormatada"
+        binding.tvData.text = "data: $dataFormatada"
 
         if (!entry.imagemUrl.isNullOrEmpty()) {
             binding.ivImagemPreview.visibility = android.view.View.VISIBLE
@@ -60,15 +65,17 @@ class EntryDetailsActivity : AppCompatActivity() {
         }
     }
 
+    // abre dialogo pra confirmar exclusao
     private fun confirmarExclusao() {
         AlertDialog.Builder(this)
-            .setTitle("Excluir Entrada")
-            .setMessage("Tem certeza que deseja excluir esta entrada?")
-            .setPositiveButton("Sim") { _, _ -> excluirEntrada() }
-            .setNegativeButton("Cancelar", null)
+            .setTitle("excluir entrada")
+            .setMessage("tem certeza que deseja excluir esta entrada?")
+            .setPositiveButton("sim") { _, _ -> excluirEntrada() }
+            .setNegativeButton("cancelar", null)
             .show()
     }
 
+    // remove entrada do firestore (e a imagem do storage se tiver)
     private fun excluirEntrada() {
         val firestore = FirebaseFirestore.getInstance()
         val storage = FirebaseStorage.getInstance()
@@ -81,30 +88,32 @@ class EntryDetailsActivity : AppCompatActivity() {
                     val storageRef = storage.getReferenceFromUrl(url)
                     storageRef.delete()
                         .addOnSuccessListener {
-                            Toast.makeText(this, "Entrada e imagem excluídas com sucesso!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "entrada e imagem excluidas com sucesso!", Toast.LENGTH_SHORT).show()
                             reiniciarHomeActivity()
                         }
                         .addOnFailureListener {
-                            Toast.makeText(this, "Entrada excluída, mas falha ao remover imagem.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "entrada excluida, mas falha ao remover imagem", Toast.LENGTH_SHORT).show()
                             reiniciarHomeActivity()
                         }
                 } ?: run {
-                    Toast.makeText(this, "Entrada excluída com sucesso!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "entrada excluida com sucesso!", Toast.LENGTH_SHORT).show()
                     reiniciarHomeActivity()
                 }
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Erro ao excluir entrada", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "erro ao excluir entrada", Toast.LENGTH_SHORT).show()
             }
     }
 
+    // reinicia a home depois de editar ou excluir
     private fun reiniciarHomeActivity() {
         val intent = Intent(this, HomeActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK // Limpa a pilha de atividades e reinicia HomeActivity
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
         finish()
     }
 
+    // se voltar da tela de edicao, recarrega a home
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
