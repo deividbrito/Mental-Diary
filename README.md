@@ -26,5 +26,5 @@ Aplicativo de diário inteligente com entrada de voz, registro de humor e imagem
 - SPRINT 3 -> FINALIZADA!
 - SPRINT 4 -> FINALIZADA!
 - SPRINT 5 -> FINALIZADA!
-- SPRINT 6 -> EM PROGRESSO...
-- SPRINT 7 -> EM BREVE.
+- SPRINT 6 -> FINALIZADA!
+- SPRINT 7 -> EM PROGRESSO...
