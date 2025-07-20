@@ -9,8 +9,10 @@ import br.edu.ifsp.dmo2.mentaldiary.model.DiaryEntry
 import java.text.SimpleDateFormat
 import java.util.*
 
-class EntryAdapter(private val items: MutableList<DiaryEntry>) :
-    RecyclerView.Adapter<EntryAdapter.VH>() {
+class EntryAdapter(
+    private val items: MutableList<DiaryEntry>,
+    private val onItemClick: (DiaryEntry) -> Unit
+) : RecyclerView.Adapter<EntryAdapter.VH>() {
 
     class VH(val binding: ItemEntryBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -28,6 +30,10 @@ class EntryAdapter(private val items: MutableList<DiaryEntry>) :
         holder.binding.tvText.text = entry.texto
         holder.binding.tvDate.text = formatDate(entry.dataCriacao)
         holder.binding.ivMood.setImageResource(moodIcon(entry.humor))
+
+        holder.binding.root.setOnClickListener {
+            onItemClick(entry)
+        }
     }
 
     fun update(newItems: List<DiaryEntry>) {
@@ -43,9 +49,9 @@ class EntryAdapter(private val items: MutableList<DiaryEntry>) :
     }
 
     private fun moodIcon(humor: String?): Int = when (humor) {
-        "Feliz"  -> R.drawable.ic_happy
+        "Feliz" -> R.drawable.ic_happy
         "Triste" -> R.drawable.ic_sad
         "Ansioso" -> R.drawable.ic_anxious
-        else     -> R.drawable.ic_neutral
+        else -> R.drawable.ic_neutral
     }
 }

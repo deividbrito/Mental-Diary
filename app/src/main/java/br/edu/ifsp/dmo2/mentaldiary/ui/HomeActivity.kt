@@ -22,7 +22,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private val authRepo = AuthRepository()
     private val fsRepo   = FirestoreRepository()
-    private val adapter  = EntryAdapter(mutableListOf())
+    private lateinit var adapter: EntryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +30,12 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
         
         setSupportActionBar(binding.toolbar)
+
+        adapter = EntryAdapter(mutableListOf()) { entry ->
+            val intent = Intent(this, EntryDetailsActivity::class.java)
+            intent.putExtra("entry", entry)
+            startActivity(intent)
+        }
 
         binding.rvEntries.layoutManager = LinearLayoutManager(this)
         binding.rvEntries.adapter = adapter
