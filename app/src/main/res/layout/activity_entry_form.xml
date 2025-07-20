@@ -1,6 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/entryFormLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="24dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/editTextTexto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Digite algo ou use o microfone"
+            android:minLines="4"
+            android:gravity="top"
+            android:inputType="textMultiLine" />
+
+        <Button
+            android:id="@+id/buttonTranscricao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🎤 Usar voz para transcrição"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:id="@+id/textViewHumor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Como você está se sentindo?"
+            android:layout_marginTop="16dp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupHumor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioFeliz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Feliz" />
+
+            <RadioButton
+                android:id="@+id/radioTriste"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Triste" />
+
+            <RadioButton
+                android:id="@+id/radioNeutro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Neutro" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/buttonImagem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📷 Escolher imagem"
+            android:layout_marginTop="16dp" />
+
+        <ImageView
+            android:id="@+id/imagePreview"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="8dp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/buttonSalvar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Salvar Entrada"
+            android:layout_marginTop="24dp" />
+    </LinearLayout>
+</ScrollView>
